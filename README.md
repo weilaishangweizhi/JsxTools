@@ -135,7 +135,7 @@ implementation ‘’
 
     返回：无
 
--**关闭窗口**
+- **关闭窗口**
 
    方法名：closeWindow
 
@@ -145,7 +145,7 @@ implementation ‘’
 
    返回：无
 
--**捕获系统back键**
+- **捕获系统back键**
 
    方法名：onBack
 
@@ -157,7 +157,7 @@ implementation ‘’
 
    说明：调用捕获Back键后，back事件由h5处理。h5需要提供onBack方法供原生系统调用。
 
--**停止捕获系统back键**
+- **停止捕获系统back键**
 
    方法名：onBack
 
@@ -167,7 +167,7 @@ implementation ‘’
 
    返回：无
 
--**重新加载页面**
+- **重新加载页面**
 
    方法名：refreshPage
 
@@ -177,7 +177,7 @@ implementation ‘’
 
    返回：无
 
--**下载资源到手机（系统浏览器下载）**
+- **下载资源到手机（系统浏览器下载）**
 
    方法名：downloadFile
 
@@ -187,7 +187,7 @@ implementation ‘’
 
    返回：无
 
--**添加系统联系人**
+- **添加系统联系人**
 
    方法名：addContact
 
@@ -197,7 +197,7 @@ implementation ‘’
 
    返回：无
 
--**保存数据**
+- **保存数据**
 
    方法名：saveJsonStr
 
@@ -207,7 +207,7 @@ implementation ‘’
 
    返回：boolean
 
--**获取数据**
+- **获取数据**
 
    方法名：getJsonStr
 
@@ -217,7 +217,7 @@ implementation ‘’
 
    返回：String  value
 
--**删除数据**
+- **删除数据**
 
    方法名：removeJsonStr
 
@@ -227,7 +227,7 @@ implementation ‘’
 
    返回：无
 
--**获取定位信息**
+- **获取定位信息**
 
    方法名：getLocation
 
