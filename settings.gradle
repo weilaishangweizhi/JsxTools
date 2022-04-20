@@ -1,0 +1,4 @@
+include ':imagepicker'
+include ':JsxTools'
+include ':app'
+rootProject.name = "JsxDemo"
