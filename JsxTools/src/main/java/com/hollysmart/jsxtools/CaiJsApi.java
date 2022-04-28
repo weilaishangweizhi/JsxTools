@@ -161,10 +161,15 @@ public class CaiJsApi {
 
             @Override
             public void getResult(boolean isOk, String result) {
+                JsonObject args = new JsonObject();
                 if (isOk) {
-                    JsonObject args = new JsonObject();
+                    args.addProperty("code", 0);
                     args.addProperty("data", result);
                     handler.complete(new Gson().toJson(args));
+                }else {
+                    args.addProperty("code", -1);
+                    args.addProperty("data", result);
+                    handler.complete();
                 }
             }
         });
