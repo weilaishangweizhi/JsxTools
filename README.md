@@ -46,16 +46,6 @@
 <service android:name="com.amap.api.location.APSService"/>
 ```
 
-- **扫一扫功能**
-
-        需要在主工程中配置AndroidManifest
-
-```
-<activity android:name="com.hollysmart.zxingqrcodemodule.ScanCodeActivity" />
-<activity
-    android:name="com.hollysmart.zxingqrcodemodule.GenerateCodeActivity"
-    android:screenOrientation="portrait" />
-```
 
 ## 功能介绍
 
