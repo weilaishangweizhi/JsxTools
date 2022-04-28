@@ -165,11 +165,15 @@ public class CaiJsApi {
                 if (isOk) {
                     args.addProperty("code", 0);
                     args.addProperty("data", result);
-                    handler.complete(new Gson().toJson(args));
+                    String jsonStr = new Gson().toJson(args);
+                    Mlog.d("文件上传返回：" + jsonStr);
+                    handler.complete(jsonStr);
                 }else {
                     args.addProperty("code", -1);
                     args.addProperty("data", result);
-                    handler.complete();
+                    String jsonStr = new Gson().toJson(args);
+                    Mlog.d("文件上传返回：" + jsonStr);
+                    handler.complete(jsonStr);
                 }
             }
         });
