@@ -89,7 +89,7 @@ public class CaiJsApi {
             }
         });
 
-        if (fragment == null) {
+        if (fragment != null) {
             ImagePicker.picker().cameraPick(fragment, REQUEST_CODE);
         } else {
             ImagePicker.picker().cameraPick(activity, REQUEST_CODE);
