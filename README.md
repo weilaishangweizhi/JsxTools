@@ -3,7 +3,16 @@
 ## Gradle引用
 
 ```
-    implementation 'com.github.weilaishangweizhi:JsxTools:1.0.0'
+allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+
+```
+    implementation 'com.github.weilaishangweizhi:JsxTools:tag'//tag替换最新版本号
 ```
 
 ## 初始化
@@ -46,6 +55,42 @@
 <service android:name="com.amap.api.location.APSService"/>
 ```
 
+- **拍照及相册功能**
+
+      需要配置FileProvider
+
+```
+<provider
+    android:name="android.support.v4.content.FileProvider"
+    android:authorities="${applicationId}.fileProvider"
+    android:exported="false"
+    android:grantUriPermissions="true">
+    <meta-data
+        android:name="android.support.FILE_PROVIDER_PATHS"
+        android:resource="@xml/provider_paths"/>
+</provider>
+```
+
+在res目录新建xml文件夹，创建provider_paths.xml文件如下：
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <root-path
+        name="root"
+        path="" />
+    <external-path
+        name="external_files"
+        path="." />
+    <cache-path
+        name="cache-documents"
+        path="documents" />
+
+    <external-path name="beta_external_path" path="Download/"/>
+    <!--/storage/emulated/0/Android/data/${applicationId}/files/apk/-->
+    <external-path name="beta_external_files_path" path="Android/data/"/>
+</paths>
+```
 
 ## 功能介绍
 
