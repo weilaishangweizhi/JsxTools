@@ -41,7 +41,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements JsxInterface.JSXCallBack {
 
     private static final int REQUEST_CODE_SACN_QRCODE = 999;
-    private String url = "https://tszhgd.hollysmart.com/app";
     private boolean isInit = true;
     private DWebView dwebView;
 
@@ -76,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements JsxInterface.JSXC
         dwebView.addJavascriptObject(caiJsApi, null);
         dwebView.setWebViewClient(webViewClient);
         dwebView.setWebChromeClient(webChromeClient);
-//        dwebView.loadUrl(url);
         dwebView.loadUrl("file:///android_asset/js-call-native.html");
 //        dwebView.loadUrl("http://test.hollysmart.com.cn:9001/jsxRt/#/");
         getLocPermission();
@@ -377,7 +375,10 @@ public class MainActivity extends AppCompatActivity implements JsxInterface.JSXC
     @Override
     public void refreshPage() {
         Mlog.d("-----------刷新webview----------");
-        dwebView.loadUrl(url);
+    }
+
+    @Override
+    public void openWXProgram(String miniId) {
     }
 
     @Override

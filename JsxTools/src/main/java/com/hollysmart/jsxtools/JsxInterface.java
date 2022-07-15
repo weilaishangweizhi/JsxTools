@@ -41,6 +41,12 @@ public class JsxInterface {
          */
         void refreshPage();
 
+        /**
+         * 打开微信小程序
+         * @param miniId
+         */
+        void openWXProgram(String miniId);
+
     }
 
 

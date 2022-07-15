@@ -49,6 +49,14 @@ public class CaiJsApi {
     }
 
 
+
+    @JavascriptInterface
+    public String openWXProgram(Object id){
+        Mlog.d("打开微信小程序：" + id);
+        jsxCallBack.openWXProgram(String.valueOf(id));
+        return "调用成功";
+    }
+
     /**
      * 二维码扫描
      *
