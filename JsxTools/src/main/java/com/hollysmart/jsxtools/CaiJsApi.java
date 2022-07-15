@@ -30,7 +30,8 @@ import java.util.Map;
 import static java.lang.String.valueOf;
 
 public class CaiJsApi {
-    public static final int REQUEST_CODE = 1000;
+    public static final int REQUEST_CODE = 1000;   //拍照或相册回调
+    public static final int REQUEST_CODE_FOLDER = 1001; //选取文件回调
     private Context mContext;
     private Activity activity;
     private Fragment fragment;
@@ -142,8 +143,24 @@ public class CaiJsApi {
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+
+    /**
+     * 打开系统文件夹功能
+     * @param json
+     * @param handler
+     */
+    @JavascriptInterface
+    public void openFolder(Object json, final CompletionHandler<String> handler){
+        jsxCallBack.setSelectFilePathIF(filePath -> {
+            Map<String, String> result = new HashMap<>();
+            result.put("filePath", filePath);
+            handler.complete(new Gson().toJson(result));
+        });
+    }
+
 
     /**
      * 上传文件  异步API

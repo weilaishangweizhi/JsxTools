@@ -28,6 +28,8 @@
 
 </style>
 <body>
+<div class="btn" onclick="openFolder()">打开系统文件夹</div>
+<div class="btn" onclick="chooseImage()">打开本地相册</div>
 <div class="btn" onclick="openWXProgram()">微信小程序</div>
 <div class="btn" onclick="callSyn()">Synchronous call</div>
 <div class="btn" onclick="callAsyn()">Asynchronous call</div>
@@ -44,6 +46,17 @@
 <div class="btn" onclick="hasNativeMethod('testSyn')">hasNativeMethod("testSyn")</div>
 
 <script>
+   function openFolder() {
+        dsBridge.call("openFolder","", function (v) {
+            alert(v)
+        })
+    }
+   function chooseImage() {
+        dsBridge.call("chooseImage","{}", function (v) {
+            alert(v)
+        })
+    }
+
     function openWXProgram(){
         dsBridge.call("openWXProgram", "mini123456")
     }

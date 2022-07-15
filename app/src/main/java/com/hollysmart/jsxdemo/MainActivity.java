@@ -4,14 +4,17 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.text.TextUtils;
 import android.webkit.GeolocationPermissions;
 import android.webkit.ValueCallback;
@@ -282,9 +285,19 @@ public class MainActivity extends AppCompatActivity implements JsxInterface.JSXC
                     scanCodeIF.getScanCodeResult(resultStr);
                 }
                 break;
+
+            case CaiJsApi.REQUEST_CODE_FOLDER:
+                if (resultCode == RESULT_OK && data != null) {
+                    Mlog.d("选择相册的返回");
+                    Uri uri = data.getData();
+                    String path = FileUtils.getPath(MainActivity.this, uri);
+                    selectFilePathIF.getFilePath(path);
+                }
+                break;
         }
 
     }
+
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void onActivityResultAboveL(int requestCode, int resultCode, Intent data) {
@@ -343,6 +356,19 @@ public class MainActivity extends AppCompatActivity implements JsxInterface.JSXC
         this.imagePathIF = imagePathIF;
     }
 
+    /**
+     * 设置系统文件夹选取文件监听
+     * @param selectFilePathIF
+     */
+    private JsxInterface.SelectFilePathIF selectFilePathIF;
+    @Override
+    public void setSelectFilePathIF(JsxInterface.SelectFilePathIF selectFilePathIF) {
+        this.selectFilePathIF = selectFilePathIF;
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");//无类型限制
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        startActivityForResult(intent, CaiJsApi.REQUEST_CODE_FOLDER);
+    }
 
     /**
      * 启动二维码扫描并返回扫描值

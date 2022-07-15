@@ -7,6 +7,13 @@ import java.util.List;
 public class JsxInterface {
     public interface JSXCallBack {
 
+
+        /**
+         * 设置系统文件夹选取监听
+         * @param selectFilePathIF
+         */
+        void setSelectFilePathIF(SelectFilePathIF selectFilePathIF);
+
         /**
          * 获取相册、相机的图片路径
          *
@@ -49,6 +56,13 @@ public class JsxInterface {
 
     }
 
+
+    /**
+     * 获取选取系统文件地址
+     */
+    public interface SelectFilePathIF {
+        void getFilePath(String filePath);
+    }
 
     /**
      * 获取相册、相机的图片路径
