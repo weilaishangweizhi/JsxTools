@@ -273,3 +273,13 @@ allprojects {
    Type: gaode、baidu、gps  默认gaode
   
    返回：{"altitude":0.0,"address":"北京市海淀区万柳东路9号靠近至高美术馆","latitude":39.959591959178155,"accuracy":29.0,"speed":0.0,"longitude":116.29647260239173}
+
+- **打开系统文件夹**
+
+     方法名：openFolder
+
+     方法类型：异步Api
+
+     参数：无
+
+     返回：{”filePath“：”文件地址“}
