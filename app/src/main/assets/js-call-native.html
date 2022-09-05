@@ -31,19 +31,21 @@
 <div class="btn" onclick="openFolder()">打开系统文件夹</div>
 <div class="btn" onclick="chooseImage()">打开本地相册</div>
 <div class="btn" onclick="openWXProgram()">微信小程序</div>
-<div class="btn" onclick="callSyn()">Synchronous call</div>
-<div class="btn" onclick="callAsyn()">Asynchronous call</div>
-<div class="btn" onclick="callNoArgSyn()">Sync call without argument</div>
-<div class="btn" onclick="callNoArgAsyn()">Async call without argument</div>
-<div class="btn" onclick="echoSyn()">echo.syn</div>
-<div class="btn" onclick="echoAsyn()">echo.asyn</div>
-<div class="btn" onclick="callAsyn_()">Stress test，2K times consecutive asynchronous API calls</div>
-<div class="btn" onclick="callNever()">Never call because without @JavascriptInterface annotation<br/>( This test is
-    just for Android ,should be ignored in IOS )
-</div>
-<div class="btn" onclick="callProgress()">call progress <span id='progress'></span></div>
-<div class="btn" onclick="hasNativeMethod('xx')">hasNativeMethod("xx")</div>
-<div class="btn" onclick="hasNativeMethod('testSyn')">hasNativeMethod("testSyn")</div>
+<div class="btn" onclick="requestPermission()">获取电子合同权限</div>
+
+<!--<div class="btn" onclick="callSyn()">Synchronous call</div>-->
+<!--<div class="btn" onclick="callAsyn()">Asynchronous call</div>-->
+<!--<div class="btn" onclick="callNoArgSyn()">Sync call without argument</div>-->
+<!--<div class="btn" onclick="callNoArgAsyn()">Async call without argument</div>-->
+<!--<div class="btn" onclick="echoSyn()">echo.syn</div>-->
+<!--<div class="btn" onclick="echoAsyn()">echo.asyn</div>-->
+<!--<div class="btn" onclick="callAsyn_()">Stress test，2K times consecutive asynchronous API calls</div>-->
+<!--<div class="btn" onclick="callNever()">Never call because without @JavascriptInterface annotation<br/>( This test is-->
+<!--    just for Android ,should be ignored in IOS )-->
+<!--</div>-->
+<!--<div class="btn" onclick="callProgress()">call progress <span id='progress'></span></div>-->
+<!--<div class="btn" onclick="hasNativeMethod('xx')">hasNativeMethod("xx")</div>-->
+<!--<div class="btn" onclick="hasNativeMethod('testSyn')">hasNativeMethod("testSyn")</div>-->
 
 <script>
    function openFolder() {
@@ -61,63 +63,72 @@
         dsBridge.call("openWXProgram", "mini123456")
     }
 
-    function callSyn() {
-        alert(dsBridge.call("openWXProgram", "mini123456"))
+    function requestPermission(){
+        //h5调用原生方法
+        // eContract 为Android原生中给“电子钱包”系统的接口命名，
+        // requestPermission 为Android原生中给“电子钱包”系统的请求权限方法。
+        window.eContract.requestPermission();
     }
 
-    function callAsyn() {
-        dsBridge.call("takePhoto","takePhoto", function (v) {
-            alert(v)
-        })
-    }
 
-    function callAsyn_() {
-        for (var i = 0; i < 2000; i++) {
-            dsBridge.call("testAsyn", "js+" + i, function (v) {
-                if (v == "js+1999 [ asyn call]") {
-                    alert("All tasks completed!")
-                }
-            })
-        }
-    }
 
-    function callNoArgSyn() {
-        alert(dsBridge.call("testNoArgSyn"));
-    }
+<!--    function callSyn() {-->
+<!--        alert(dsBridge.call("openWXProgram", "mini123456"))-->
+<!--    }-->
 
-    function callNoArgAsyn() {
-        dsBridge.call("chooseImage", function (v) {
-            alert(v)
-        });
-    }
+<!--    function callAsyn() {-->
+<!--        dsBridge.call("takePhoto","takePhoto", function (v) {-->
+<!--            alert(v)-->
+<!--        })-->
+<!--    }-->
 
-    function callNever() {
-        alert(dsBridge.call("testNever", {msg: "testSyn"}))
-    }
+<!--    function callAsyn_() {-->
+<!--        for (var i = 0; i < 2000; i++) {-->
+<!--            dsBridge.call("testAsyn", "js+" + i, function (v) {-->
+<!--                if (v == "js+1999 [ asyn call]") {-->
+<!--                    alert("All tasks completed!")-->
+<!--                }-->
+<!--            })-->
+<!--        }-->
+<!--    }-->
 
-    function echoSyn() {
-        // call function with namespace
-        var ret=dsBridge.call("echo.syn",{msg:" I am echoSyn call", tag:1});
-        alert(JSON.stringify(ret))
-    }
+<!--    function callNoArgSyn() {-->
+<!--        alert(dsBridge.call("testNoArgSyn"));-->
+<!--    }-->
 
-    function echoAsyn() {
-        // call function with namespace
-        dsBridge.call("echo.asyn",{msg:" I am echoAsyn call",tag:2},function (ret) {
-            alert(JSON.stringify(ret));
-        })
-    }
+<!--    function callNoArgAsyn() {-->
+<!--        dsBridge.call("chooseImage", function (v) {-->
+<!--            alert(v)-->
+<!--        });-->
+<!--    }-->
 
-    function callProgress() {
-        dsBridge.call("callProgress", function (value) {
-            if(value==0) value="";
-            document.getElementById("progress").innerText = value
-        })
-    }
+<!--    function callNever() {-->
+<!--        alert(dsBridge.call("testNever", {msg: "testSyn"}))-->
+<!--    }-->
 
-    function hasNativeMethod(name) {
-        alert(dsBridge.hasNativeMethod(name))
-    }
+<!--    function echoSyn() {-->
+<!--        // call function with namespace-->
+<!--        var ret=dsBridge.call("echo.syn",{msg:" I am echoSyn call", tag:1});-->
+<!--        alert(JSON.stringify(ret))-->
+<!--    }-->
+
+<!--    function echoAsyn() {-->
+<!--        // call function with namespace-->
+<!--        dsBridge.call("echo.asyn",{msg:" I am echoAsyn call",tag:2},function (ret) {-->
+<!--            alert(JSON.stringify(ret));-->
+<!--        })-->
+<!--    }-->
+
+<!--    function callProgress() {-->
+<!--        dsBridge.call("callProgress", function (value) {-->
+<!--            if(value==0) value="";-->
+<!--            document.getElementById("progress").innerText = value-->
+<!--        })-->
+<!--    }-->
+
+<!--    function hasNativeMethod(name) {-->
+<!--        alert(dsBridge.hasNativeMethod(name))-->
+<!--    }-->
 
 
 </script>

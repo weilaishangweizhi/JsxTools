@@ -73,6 +73,8 @@ public class MainActivity extends AppCompatActivity implements JsxInterface.JSXC
         webSettings.setDomStorageEnabled(true);
         CaiJsApi caiJsApi = new CaiJsApi(this);
         dwebView.addJavascriptObject(caiJsApi, null);
+        dwebView.addJavascriptInterface(new DianZhiHeTongJSInterface(this), DianZhiHeTongJSInterface.NAMESPACE);
+
         dwebView.setWebViewClient(webViewClient);
         dwebView.setWebChromeClient(webChromeClient);
         dwebView.loadUrl("file:///android_asset/js-call-native.html");
