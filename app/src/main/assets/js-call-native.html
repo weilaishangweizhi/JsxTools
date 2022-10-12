@@ -30,8 +30,10 @@
 <body>
 <div class="btn" onclick="openFolder()">打开系统文件夹</div>
 <div class="btn" onclick="chooseImage()">打开本地相册</div>
+<div class="btn" onclick="takePhoto()">打开相机拍照</div>
 <div class="btn" onclick="openWXProgram()">微信小程序</div>
 <div class="btn" onclick="requestPermission()">获取电子合同权限</div>
+<div class="btn" onclick="scanCode()">扫一扫</div>
 
 <!--<div class="btn" onclick="callSyn()">Synchronous call</div>-->
 <!--<div class="btn" onclick="callAsyn()">Asynchronous call</div>-->
@@ -48,16 +50,23 @@
 <!--<div class="btn" onclick="hasNativeMethod('testSyn')">hasNativeMethod("testSyn")</div>-->
 
 <script>
-   function openFolder() {
+    function openFolder() {
         dsBridge.call("openFolder","", function (v) {
             alert(v)
         })
     }
-   function chooseImage() {
+    function chooseImage() {
         dsBridge.call("chooseImage","{}", function (v) {
             alert(v)
         })
     }
+
+      function takePhoto() {
+        dsBridge.call("takePhoto","", function (v) {
+            alert(v)
+        })
+    }
+
 
     function openWXProgram(){
         dsBridge.call("openWXProgram", "mini123456")
@@ -69,6 +78,15 @@
         // requestPermission 为Android原生中给“电子钱包”系统的请求权限方法。
         window.eContract.requestPermission();
     }
+
+    function scanCode(){
+        dsBridge.call("scanCode", "", function(v){
+            alert(v)
+        })
+    }
+
+
+
 
 
 

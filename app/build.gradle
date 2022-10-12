@@ -37,4 +37,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation project(':JsxTools')
 
+    //二维码扫描模块
+    implementation 'com.github.gb007:qrcodemodule:1.0.1'
 }

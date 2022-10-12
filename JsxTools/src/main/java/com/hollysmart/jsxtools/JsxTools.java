@@ -1,32 +1,35 @@
 package com.hollysmart.jsxtools;
 
 import android.app.Application;
-import android.content.Context;
-import android.util.Log;
 
 import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.smtt.sdk.TbsListener;
 
 public class JsxTools {
-    private JsxTools(){
+    private JsxTools() {
     }
+
     private static class JsxToolsInstance {
         private static final JsxTools INSTANCE = new JsxTools();
     }
+
     public static JsxTools getInstance() {
         return JsxToolsInstance.INSTANCE;
     }
+
     private Application application;
+
     public Application getApplication() {
         return application;
     }
+
     public JsxTools setApplication(Application application) {
         this.application = application;
         return getInstance();
     }
 
 
-    public void init(Application application){
+    public void initX5(Application application) {
         /* 设置允许移动网络下进行内核下载。默认不下载，会导致部分一直用移动网络的用户无法使用x5内核 */
         QbSdk.setDownloadWithoutWifi(true);
         /* SDK内核初始化周期回调，包括 下载、安装、加载 */
@@ -51,7 +54,7 @@ public class JsxTools {
              */
             @Override
             public void onDownloadProgress(int progress) {
-               Mlog.d("Core Downloading: " + progress);
+                Mlog.d("Core Downloading: " + progress);
             }
         });
 
@@ -74,9 +77,6 @@ public class JsxTools {
         });
 
     }
-
-
-
 
 
 }
