@@ -37,7 +37,6 @@ public class DsbridgeWebFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dsbridge, container, false);
-        initJSX();
         initWebview(view);
         return view;
     }
@@ -61,6 +60,7 @@ public class DsbridgeWebFragment extends Fragment {
         }
         //设置支持DomStorage
         webSettings.setDomStorageEnabled(true);
+        initJSX();
         dwebView.addJavascriptObject(dsbridgeJSAPI, null);
         dwebView.setWebViewClient(webViewClient);
         dwebView.setWebChromeClient(webChromeClient);
@@ -75,7 +75,6 @@ public class DsbridgeWebFragment extends Fragment {
     };
 
     WebChromeClient webChromeClient = new WebChromeClient() {
-
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
             super.onProgressChanged(view, newProgress);

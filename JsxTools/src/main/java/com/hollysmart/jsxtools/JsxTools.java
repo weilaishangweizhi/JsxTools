@@ -2,6 +2,7 @@ package com.hollysmart.jsxtools;
 
 import android.app.Application;
 
+import com.hollysmart.jsxtools.util.FileUtils;
 import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.smtt.sdk.TbsListener;
 
@@ -18,7 +19,6 @@ public class JsxTools {
     }
 
     private Application application;
-
     public Application getApplication() {
         return application;
     }
@@ -28,6 +28,11 @@ public class JsxTools {
         return getInstance();
     }
 
+
+    public JsxTools initFileUtil(Application application){
+        FileUtils.setAUTHORITY(application.getPackageName() + ".fileProvider");
+        return getInstance();
+    }
 
     public void initX5(Application application) {
         /* 设置允许移动网络下进行内核下载。默认不下载，会导致部分一直用移动网络的用户无法使用x5内核 */

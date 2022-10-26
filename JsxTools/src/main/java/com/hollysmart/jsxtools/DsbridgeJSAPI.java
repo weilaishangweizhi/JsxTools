@@ -3,12 +3,14 @@ package com.hollysmart.jsxtools;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.webkit.JavascriptInterface;
 
 import androidx.fragment.app.Fragment;
 
 import com.google.gson.Gson;
 import com.hollysmart.jsxtools.dsbridge.CompletionHandler;
+import com.hollysmart.jsxtools.util.FileUtils;
 import com.lqr.imagepicker.ImagePicker;
 import com.lqr.imagepicker.bean.ImageItem;
 
@@ -35,6 +37,7 @@ public class DsbridgeJSAPI {
     private DsbridgeInterface.ScanCodeIF scanCodeIF; //扫描二维码
     private DsbridgeCallBackIF<List<ImageItem>> takePhotoCallBack; //拍照
     private DsbridgeCallBackIF<List<ImageItem>> chooseImageCallBack; //选择照片
+    private DsbridgeCallBackIF<String> openFoderCallBack; //选择文件
 
     public DsbridgeJSAPI(Activity activity) {
         this.mContext = activity;
@@ -65,9 +68,17 @@ public class DsbridgeJSAPI {
                 if (resultCode == Activity.RESULT_OK && data != null) {
                     List<ImageItem> resultList = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
                     chooseImageCallBack.onResult(DsbridgeCallBackIF.CALLBACK_SUCCEED, resultList);
-
                 } else {
                     chooseImageCallBack.onResult(DsbridgeCallBackIF.CALLBACK_CANCEL, null);
+                }
+                break;
+            case DsbridgeJSAPI.REQUEST_CODE_FOLDER:
+                if (requestCode == Activity.RESULT_OK && data != null) {
+                    Uri uri = data.getData();
+                    String path = FileUtils.getPath(mContext, uri);
+                    openFoderCallBack.onResult(DsbridgeCallBackIF.CALLBACK_SUCCEED, path);
+                } else {
+                    openFoderCallBack.onResult(DsbridgeCallBackIF.CALLBACK_CANCEL, null);
                 }
                 break;
 
@@ -188,7 +199,32 @@ public class DsbridgeJSAPI {
         }
     }
 
-
+    /**
+     * 打开系统文件夹功能
+     *
+     * @param json
+     * @param handler
+     */
+    @JavascriptInterface
+    public void openFolder(Object json, final CompletionHandler<String> handler) {
+        openFoderCallBack = new DsbridgeCallBackIF<String>() {
+            @Override
+            public void onResult(int code, String s) {
+                Map<String, Object> args = new HashMap<>();
+                args.put("filePath", s);
+                args.put("code", code);
+                handler.complete(new Gson().toJson(args));
+            }
+        };
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");//无类型限制
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        if (fragment == null) {
+            fragment.startActivityForResult(intent, REQUEST_CODE_FOLDER);
+        } else {
+            activity.startActivityForResult(intent, REQUEST_CODE_FOLDER);
+        }
+    }
 }
 
 
