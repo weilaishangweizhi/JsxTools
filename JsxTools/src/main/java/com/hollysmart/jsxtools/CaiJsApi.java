@@ -16,8 +16,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.hollysmart.jsxtools.dsbridge.CompletionHandler;
-import com.hollysmart.jsxtools.location.LocationUtil;
 import com.hollysmart.jsxtools.location.GaoDeLatLng;
+import com.hollysmart.jsxtools.location.LocationUtil;
 import com.hollysmart.jsxtools.util.ACache;
 import com.lqr.imagepicker.ImagePicker;
 import com.lqr.imagepicker.bean.ImageItem;
@@ -51,9 +51,8 @@ public class CaiJsApi {
     }
 
 
-
     @JavascriptInterface
-    public String openWXProgram(Object id){
+    public String openWXProgram(Object id) {
         Mlog.d("打开微信小程序：" + id);
         jsxCallBack.openWXProgram(String.valueOf(id));
         return "调用成功";
@@ -150,11 +149,12 @@ public class CaiJsApi {
 
     /**
      * 打开系统文件夹功能
+     *
      * @param json
      * @param handler
      */
     @JavascriptInterface
-    public void openFolder(Object json, final CompletionHandler<String> handler){
+    public void openFolder(Object json, final CompletionHandler<String> handler) {
         jsxCallBack.setSelectFilePathIF(filePath -> {
             Map<String, String> result = new HashMap<>();
             result.put("filePath", filePath);
@@ -194,7 +194,7 @@ public class CaiJsApi {
                     String jsonStr = new Gson().toJson(args);
                     Mlog.d("文件上传返回：" + jsonStr);
                     handler.complete(jsonStr);
-                }else {
+                } else {
                     args.addProperty("code", -1);
                     args.addProperty("data", result);
                     String jsonStr = new Gson().toJson(args);
@@ -453,29 +453,33 @@ public class CaiJsApi {
     public void getLocation(Object json, final CompletionHandler<String> handler) {
         // json  {"type":"gps","isHighAccuracy":true,"timeOut":3000}
         Mlog.d("获取定位信息 异步API" + json);
-        try {
-            final JSONObject jsonObject = new JSONObject(valueOf(json));
-            boolean isHigh = true;
-            long timeOut = 0;
-            if (jsonObject.has("isHighAccuracy")) {
-                isHigh = jsonObject.getBoolean("isHighAccuracy");
-            }
-            if (jsonObject.has("timeOut")) {
-                timeOut = jsonObject.getLong("timeOut");
-            }
-            String type = "";
-            if (jsonObject.has("type"))
-                type = jsonObject.getString("type");
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    final JSONObject jsonObject = new JSONObject(valueOf(json));
+                    boolean isHigh = true;
+                    long timeOut = 0;
+                    if (jsonObject.has("isHighAccuracy")) {
+                        isHigh = jsonObject.getBoolean("isHighAccuracy");
+                    }
+                    if (jsonObject.has("timeOut")) {
+                        timeOut = jsonObject.getLong("timeOut");
+                    }
+                    String type = "";
+                    if (jsonObject.has("type"))
+                        type = jsonObject.getString("type");
 
-            LocationUtil locationUtil = new LocationUtil(mContext, activity, isHigh, timeOut);
-            locationUtil.setLocationListener(new LocationCallBack(type, handler));
 
-        } catch (JSONException e) {
-            handler.complete("请确认参数是否正确（例：{\"isHighAccuracy\":true,\"timeOut\":3000}）");
-            e.printStackTrace();
-        }
+                    LocationUtil locationUtil = new LocationUtil(mContext, activity, isHigh, timeOut);
+                    locationUtil.setLocationListener(new LocationCallBack(type, handler));
+                } catch (JSONException e) {
+                    handler.complete("请确认参数是否正确（例：{\"isHighAccuracy\":true,\"timeOut\":3000}）");
+                    e.printStackTrace();
+                }
+            }
+        });
     }
-
 
     /**
      * 定位回调
@@ -493,7 +497,7 @@ public class CaiJsApi {
 
         @Override
         public void onFinish(AMapLocation location, String city, String district, String x, String y) {
-            if (location == null){
+            if (location == null) {
                 Mlog.d("未获取到定位权限");
                 handler.complete("null-null");
                 return;

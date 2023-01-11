@@ -22,7 +22,6 @@ import com.hollysmart.jsxtools.DsbridgeInterface;
 import com.hollysmart.jsxtools.DsbridgeJSAPI;
 import com.hollysmart.jsxtools.Mlog;
 import com.hollysmart.jsxtools.dsbridge.DWebView;
-import com.hollysmart.zxingqrcodemodule.ScanCodeActivity;
 import com.permissionx.guolindev.PermissionX;
 import com.permissionx.guolindev.callback.RequestCallback;
 
@@ -98,8 +97,8 @@ public class DsbridgeWebFragment extends Fragment {
                                     @Override
                                     public void onResult(boolean allGranted, List<String> grantedList, List<String> deniedList) {
                                         if (allGranted){
-                                            Intent intent = new Intent(getContext(), ScanCodeActivity.class);
-                                            startActivityForResult(intent, REQUEST_CODE_SACN_QRCODE);
+//                                            Intent intent = new Intent(getContext(), ScanCodeActivity.class);
+//                                            startActivityForResult(intent, REQUEST_CODE_SACN_QRCODE);
                                         }
                                     }
                                 });

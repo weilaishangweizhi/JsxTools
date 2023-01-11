@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements JsxInterface.JSXC
         dwebView.setWebChromeClient(webChromeClient);
         dwebView.loadUrl("file:///android_asset/js-call-native.html");
 //        dwebView.loadUrl("http://test.hollysmart.com.cn:9001/jsxRt/#/");
-        getLocPermission();
+//        getLocPermission();
     }
 
 
