@@ -13,7 +13,7 @@ public class MyApp extends Application {
         super.onCreate();
         mContext = getApplicationContext();
         JsxTools.getInstance().setApplication(this).initFileUtil(this);
-        registerActivityLifecycleCallbacks(new ActivityLifeCycleImpl());
+//        registerActivityLifecycleCallbacks(new ActivityLifeCycleImpl());
     }
     public static Context getContext() {
         return mContext;

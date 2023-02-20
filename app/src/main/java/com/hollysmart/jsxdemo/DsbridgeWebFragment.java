@@ -12,6 +12,7 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +23,7 @@ import com.hollysmart.jsxtools.DsbridgeInterface;
 import com.hollysmart.jsxtools.DsbridgeJSAPI;
 import com.hollysmart.jsxtools.Mlog;
 import com.hollysmart.jsxtools.dsbridge.DWebView;
+import com.hollysmart.zxingqrcodemodule.ScanCodeActivity;
 import com.permissionx.guolindev.PermissionX;
 import com.permissionx.guolindev.callback.RequestCallback;
 
@@ -31,6 +33,7 @@ public class DsbridgeWebFragment extends Fragment {
     private DWebView dwebView;
     private DsbridgeJSAPI dsbridgeJSAPI;
     private final int REQUEST_CODE_SACN_QRCODE = 999;
+    private boolean onBack = false;
 
     @Nullable
     @Override
@@ -63,7 +66,9 @@ public class DsbridgeWebFragment extends Fragment {
         dwebView.addJavascriptObject(dsbridgeJSAPI, null);
         dwebView.setWebViewClient(webViewClient);
         dwebView.setWebChromeClient(webChromeClient);
-        dwebView.loadUrl("file:///android_asset/js-call-native.html");
+        dwebView.loadUrl("file:///android_asset/demo.html");
+//        dwebView.loadUrl("file:///android_asset/js-call-native.html");
+//        dwebView.loadUrl("http://test.hollysmart.com.cn:9001/jsxRt/#/");
     }
 
     WebViewClient webViewClient = new WebViewClient() {
@@ -97,8 +102,8 @@ public class DsbridgeWebFragment extends Fragment {
                                     @Override
                                     public void onResult(boolean allGranted, List<String> grantedList, List<String> deniedList) {
                                         if (allGranted){
-//                                            Intent intent = new Intent(getContext(), ScanCodeActivity.class);
-//                                            startActivityForResult(intent, REQUEST_CODE_SACN_QRCODE);
+                                            Intent intent = new Intent(getContext(), ScanCodeActivity.class);
+                                            startActivityForResult(intent, REQUEST_CODE_SACN_QRCODE);
                                         }
                                     }
                                 });
@@ -106,10 +111,31 @@ public class DsbridgeWebFragment extends Fragment {
                 });
             }
         });
+        dsbridgeJSAPI.setUploadFileIF(new DsbridgeInterface.UploadFileIF() {
+            @Override
+            public void onResult(DsbridgeCallBackIF<String> uploadFileCallBack) {
+                    uploadFileCallBack.onResult(200, "测试通过");
+            }
+        });
+        dsbridgeJSAPI.setCaptureBackIF(new DsbridgeInterface.CaptureBackIF() {
+            @Override
+            public void onBack(boolean captureOnBack) {
+                onBack = captureOnBack;
+            }
+        });
+        dsbridgeJSAPI.setRefreshPage(new DsbridgeInterface.RefreshPage() {
+            @Override
+            public void refreshPage() {
+                dwebView.reload();
+                Toast.makeText(getContext(), "刷新了页面", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        Mlog.d("fragment中的onActivityResult");
         dsbridgeJSAPI.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case REQUEST_CODE_SACN_QRCODE:
@@ -122,4 +148,19 @@ public class DsbridgeWebFragment extends Fragment {
                 break;
         }
     }
+
+    public boolean onPresssBack() {
+        if (onBack) {
+            Mlog.d("启用了拦截系统back,调用了 JS 方法 ");
+            dwebView.callHandler("onBack", new Object[]{});
+            return true;
+        } else {
+            if (dwebView.canGoBack()) {
+                dwebView.goBack();
+                return true;
+            }
+            return false;
+        }
+    }
+
 }

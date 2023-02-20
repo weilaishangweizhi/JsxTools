@@ -471,7 +471,7 @@ public class CaiJsApi {
                         type = jsonObject.getString("type");
 
 
-                    LocationUtil locationUtil = new LocationUtil(mContext, activity, isHigh, timeOut);
+                    LocationUtil locationUtil = new LocationUtil(activity, isHigh, timeOut);
                     locationUtil.setLocationListener(new LocationCallBack(type, handler));
                 } catch (JSONException e) {
                     handler.complete("请确认参数是否正确（例：{\"isHighAccuracy\":true,\"timeOut\":3000}）");

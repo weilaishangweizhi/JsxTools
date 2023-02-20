@@ -37,13 +37,13 @@ public class LocationUtil implements AMapLocationListener {
     private String y;  //longitude经度
     private String x;  //latitude纬度
 
-    public LocationUtil(Context context, Activity activity, boolean isHighAccuracy, long timeOut ) {
+    public LocationUtil(Activity activity, boolean isHighAccuracy, long timeOut ) {
         //初始化client
         try {
             if (locationClient == null){
-                AMapLocationClient.updatePrivacyShow(context, true, true);
-                AMapLocationClient.updatePrivacyAgree(context, true);
-                locationClient = new AMapLocationClient(context);
+                AMapLocationClient.updatePrivacyShow(activity, true, true);
+                AMapLocationClient.updatePrivacyAgree(activity, true);
+                locationClient = new AMapLocationClient(activity);
                 // 设置定位监听
                 locationClient.setLocationListener(this);
             }

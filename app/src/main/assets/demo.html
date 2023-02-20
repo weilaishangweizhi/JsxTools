@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cmn-Hans">
+    <meta charset="UTF-8">
+    <title>DSBridge Test</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=0.5,user-scalable=no"/>
+    <!--require dsbridge init js-->
+    <script src="./dsbridge.js"> </script>
+</head>
+<style>
+    .btn {
+        text-align: center;
+        background: #d8d8d8;
+        color: #222;
+        padding: 20px;
+        margin: 30px;
+        font-size: 24px;
+        border-radius: 4px;
+        box-shadow: 4px 2px 10px #999;
+    }
+
+    .btn:active {
+        opacity: .7;
+        box-shadow: 4px 2px 10px #555;
+    }
+
+
+</style>
+<body>
+    <div class="btn" onclick="scanCode()">扫一扫</div>
+    <div class="btn" onclick="chooseImage()">打开本地相册</div>
+    <div class="btn" onclick="takePhoto()">打开相机拍照</div>
+    <div class="btn" onclick="openFolder()">打开系统文件夹</div>
+    <div class="btn" onclick="uploadFile()">文件上传</div>
+    <div class="btn" onclick="sharedSms()">发送短信</div>
+    <div class="btn" onclick="makeCalls()">拨打电话</div>
+    <div class="btn" onclick="closeWindow()">关闭窗口</div>
+    <div class="btn" onclick="onBack()">捕获back</div>
+    <div class="btn" onclick="stopOnBack()">停止捕获</div>
+    <div class="btn" onclick="refreshPage()">刷新页面</div>
+    <div class="btn" onclick="downloadFile()">下载资源到手机</div>
+    <div class="btn" onclick="addContact()">添加系统联系人</div>
+    <div class="btn" onclick="getLocation()">获取定位信息</div>
+
+<script>
+
+    function scanCode(){
+        dsBridge.call("scanCode", "", function(v){
+            alert(v)
+        })
+    }
+    function chooseImage() {
+        dsBridge.call("chooseImage","{}", function (v) {
+            alert(v)
+        })
+    }
+    function takePhoto() {
+        dsBridge.call("takePhoto","", function (v) {
+            alert(v)
+        })
+    }
+
+    function openFolder() {
+        dsBridge.call("openFolder","", function (v) {
+            alert(v)
+        })
+    }
+    function uploadFile() {
+        dsBridge.call("uploadFile","待定", function (v) {
+            alert(v)
+        })
+    }
+
+    function sharedSms() {
+        dsBridge.call("sharedSms", {"number":"123456","msg_content":"内容"})
+    }
+
+    function makeCalls(){
+        dsBridge.call("makeCalls", {"phoneNum":"123456"})
+    }
+
+    function closeWindow(){
+        dsBridge.call("closeWindow")
+    }
+
+    function onBack(){
+        dsBridge.call("onBack")
+    }
+
+    function stopOnBack(){
+        dsBridge.call("stopOnBack")
+    }
+    function refreshPage(){
+        dsBridge.call("refreshPage")
+    }
+    function downloadFile(){
+        dsBridge.call("downloadFile",
+        {"filePath":"http://aapk.hollysmart.com.cn/%E9%80%9A%E5%B7%9E12345/%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83/tzapp-release-v1.0.5-5.apk"})
+    }
+    function addContact(){
+        dsBridge.call("addContact", {"name":"ceshi","phoneNumber":"12345678" })
+    }
+
+    function getLocation() {
+        dsBridge.call("getLocation",{"type":"gaode","isHigtAccuracy":true,"timeOut":10000}, function (v) {
+            alert(v)
+        })
+    }
+
+
+</script>
+</body>
+</html>
