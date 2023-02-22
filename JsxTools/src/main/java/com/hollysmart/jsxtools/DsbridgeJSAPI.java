@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
@@ -455,6 +456,28 @@ public class DsbridgeJSAPI {
             }
         });
     }
+
+    /**
+     * 18.设置防截屏
+     * @param onoff  true 开启防截屏  false关闭防截屏
+     */
+    @JavascriptInterface
+    public void setScreenShot(Object onoff){
+        Mlog.d("调用了设置截图开关：" + onoff);
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (Boolean.valueOf(onoff.toString())){
+                    Mlog.d("开启防截屏");
+                    activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+                }else {
+                    Mlog.d("关闭防截屏");
+                    activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
+                }
+            }
+        });
+    }
+
 
 
 
