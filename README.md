@@ -92,7 +92,83 @@ allprojects {
 </paths>
 ```
 
-## 功能介绍
+## 页面引用
+
+```
+     dwebView.addJavascriptObject(dsbridgeJSAPI, null);
+     private void initJSX(){
+        dsbridgeJSAPI = new DsbridgeJSAPI(this);
+        dsbridgeJSAPI.setScanCodeIF(new DsbridgeInterface.ScanCodeIF() {
+            @Override
+            public void onScanCode(DsbridgeCallBackIF<String> scanCodeIF) {
+                Mlog.d("调用了扫一扫");
+                scanCodeInterFace = scanCodeIF;
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        PermissionX.init(DsbridgeWebFragment.this)
+                                .permissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
+                                .request(new RequestCallback() {
+                                    @Override
+                                    public void onResult(boolean allGranted, List<String> grantedList, List<String> deniedList) {
+                                        if (allGranted){
+                                            Intent intent = new Intent(getContext(), ScanCodeActivity.class);
+                                            startActivityForResult(intent, REQUEST_CODE_SACN_QRCODE);
+                                        }
+                                    }
+                                });
+                    }
+                });
+            }
+        });
+        dsbridgeJSAPI.setUploadFileIF(new DsbridgeInterface.UploadFileIF() {
+            @Override
+            public void onResult(DsbridgeCallBackIF<String> uploadFileCallBack) {
+                    uploadFileCallBack.onResult(200, "测试通过");
+            }
+        });
+        dsbridgeJSAPI.setCaptureBackIF(new DsbridgeInterface.CaptureBackIF() {
+            @Override
+            public void onBack(boolean captureOnBack) {
+                onBack = captureOnBack;
+            }
+        });
+        dsbridgeJSAPI.setRefreshPage(new DsbridgeInterface.RefreshPage() {
+            @Override
+            public void refreshPage() {
+                dwebView.reload();
+                Toast.makeText(getContext(), "刷新了页面", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+```
+
+```
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        Mlog.d("fragment中的onActivityResult");
+        //需要在中实现此方法   必写
+        dsbridgeJSAPI.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode){
+            case REQUEST_CODE_SACN_QRCODE:
+                if (resultCode == REQUEST_CODE_SACN_QRCODE){
+                    String resultStr = data.getStringExtra("scanResult");
+                    scanCodeInterFace.onResult(DsbridgeCallBackIF.CALLBACK_SUCCEED, resultStr);
+                }else {
+                    scanCodeInterFace.onResult(DsbridgeCallBackIF.CALLBACK_CANCEL, null);
+                }
+                break;
+        }
+    }
+```
+
+## 功能介绍（新）
+
+参考JS原生功能.docx文档
+
+## 功能介绍（旧）
 
 - **js调用说明参考**：
 
